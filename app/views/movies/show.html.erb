@@ -1,0 +1,75 @@
+<div class="page-header">
+  <%= link_to "Edit This Movie", edit_movie_path(@movie), class: 'pull-right btn btn-sm btn-info' %>
+  <%= link_to "Delete This Movie", movie_path(@movie), method: 'delete', class: 'pull-right btn btn-sm btn-danger' %>
+
+  <h1><%= @movie.title %></h1>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    <%= image_tag @movie.poster_url, size:100, class: "img-responsive"%>
+  </div>
+  <div class="col-md-9">
+    <p class="lead">
+      <strong>Title:</strong>
+      <%= @movie.title %>
+    </p>
+    <p class="lead"><strong>Year: </strong><%= @movie.year %></p>
+    <p class="lead"><strong>Plot: </strong><%= @movie.plot %></p>
+    <p class="lead"><strong>Director: </strong><em>
+      <%if @movie.director %>
+      <%= link_to @movie.director.name, director_path(@movie.director) %>
+      <% end %>
+    </em></p>
+    <p class="lead"><strong>Actors: </strong><em>
+      <% if @movie.actors %>
+      <% @movie.actors.each do |actor| %>
+      <%= link_to actor.name+",", actor_path(actor.id) %>
+      <% end %>
+      <% end %>
+    </em></p>
+    <p class="lead"><strong>Cast: </strong><em>Cast goes here</em></p>
+  </div>
+</div>
+
+<%= link_to "Add Actor", new_movie_actor_path(@movie), class: 'pull-right btn btn-sm btn-info' %>
+
+<% user = User.find_by(:id => session[:user_id]) %>
+<% btodo = false%>
+<% bdone = false%>
+<% user.todoes.each do |todo|
+      if todo.todoable_type == "Movie" and todo.todoable_id == @movie.id
+        btodo = true
+        break
+      end
+    end
+%>
+<% user.dones.each do |done|
+      if done.doneable_type == "Movie" and done.doneable_id == @movie.id
+        bdone = true
+        break
+      end
+    end
+%>
+<% if btodo == false and bdone == false %>
+<%= link_to "Add To_Watch", "/todo/movie/#{@movie.id}", class: 'pull-left btn btn-sm btn-info' %>
+<%= link_to "Add Watched", "/done/movie/#{@movie.id}", class: 'pull-left btn btn-sm btn-info' %>
+<% elsif btodo == true %>
+<h4>To_Watch</h4>
+<%= link_to "Add Watched", "/done/movie/#{@movie.id}", class: 'pull-left btn btn-sm btn-info' %>
+<% elsif bdone == true %>
+<h4>Watched</h4>
+<% end %>
+
+<br>
+<br>
+<hr>
+<%= link_to "Add Comment", new_movie_comment_path(@movie), class: 'pull-right btn btn-sm btn-info' %>
+<h3>Comments:</h3>
+<br>
+<div>
+  <% @movie.comments.each do |comment|%>
+  <%= link_to comment.title, comment_path(comment.id)%> by <%= comment.user.name %><hr>
+  <% end %>
+</div>
+

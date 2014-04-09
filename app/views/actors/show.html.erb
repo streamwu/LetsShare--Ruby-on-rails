@@ -1,0 +1,28 @@
+<div class="page-header">
+ 
+
+  <h1><%= @actor.name %></h1>
+</div>
+
+<div class="row">
+  <div class="col-md-3">
+    <%= image_tag @actor.photo_url %>
+  </div>
+  <div class="col-md-9">
+    <p class="lead">
+      <strong>Name:</strong>
+      <%= @actor.name %>
+    </p>
+    <p class="lead"><strong>Birthdate: </strong><%= @actor.birthdate %></p>
+    <p class="lead"><strong>Gender: </strong><%= @actor.gender %></p>
+    <p class="lead"><strong>Country: </strong><%= @actor.country %></p>
+    <p class="lead"><strong>Bio: </strong><%= @actor.bio %></p>
+      <% @actor.movies.each do |movie| %>
+      <%= link_to image_tag(movie.poster_url, size: "100", class: 'img-circle'), movie_path(movie.id) %>
+      <% end %>
+    </em></p>
+  </div>
+</div>
+
+<%= link_to "Add Movie", new_actor_movie_path(@actor), class: 'pull-right btn btn-large btn-info' %>
+

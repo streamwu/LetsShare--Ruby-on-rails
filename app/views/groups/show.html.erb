@@ -1,0 +1,38 @@
+<div class="page-header">
+
+  <% if @group.users.include?(User.find_by_id(session[:user_id])) %>
+  <%= link_to "Drop this group", "/groups/drop/#{@group.id}", :class => "pull-right btn btn-info btn-sm" %>
+  
+  
+  <% elsif @group.user_id == session[:user_id] %>
+  <%= link_to "Delete this group", group_path(@group.id), :method=>'delete', :class => "pull-right btn btn-info btn-sm" %>
+
+
+  <% else %>
+  <%= link_to "Join this group", "/groups/join/#{@group.id}", :class => "pull-right btn btn-info btn-sm" %>
+  <% end %>
+
+
+  <div class="row">
+      <div class="col-md-2">
+        <%= image_tag @group.photo_url, :class => "img-responsive img-rounded" %>
+      </div>
+      <div class="col-md-10">
+        <h2><%= @group.title %></h2><br>
+      </div>
+  </div>
+
+
+  <h5><%= @group.description %></h5>
+
+</div>
+
+
+<%= link_to "Post a New Topic", new_group_comment_path(@group), class: 'pull-right btn btn-sm btn-info' %><br>
+<p></p><hr>
+
+<div>
+  <% @group.comments.each do |comment|%> 
+  <%= link_to comment.title, comment_path(comment.id)%> ---- <%= comment.user.name %><hr>
+  <% end %>
+</div>

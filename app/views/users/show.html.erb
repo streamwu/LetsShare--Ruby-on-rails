@@ -1,0 +1,79 @@
+
+    <div class="row">
+      <div class="col-md-2">
+        <%= image_tag @user.photo_url, :class => "img-responsive img-rounded" %>
+      </div>
+      <div class="col-md-6">
+        <h2><%= @user.name %></h2>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row col-md-12">
+      <h3><b>My Movies</b></h3><br>
+      <p><b><i>To_watch_list</i></b></p><br>
+      <% @user.todoes.each do |todo| %>
+      <% if todo.todoable_type == "Movie" %>
+      <% movie = Movie.find_by(:id => todo.todoable_id) %>
+      <%= link_to image_tag(movie.poster_url,size: "100", class: 'img-circle'), movie_path(movie.id) %>
+      <% end %>
+      <% end %>
+      <hr>
+      <p><b><i>Watched_list</i></b></p><br>
+      <% @user.dones.each do |done|%>
+      <% if done.doneable_type == "Movie"%>
+      <% movie = Movie.find_by(:id =>done.doneable_id )%>
+      <%= link_to image_tag(movie.poster_url, size: "100", class: 'img-circle'), movie_path(movie.id) %>
+      <% end %>
+      <% end %>
+    </div>
+
+    
+    <div class="row col-md-12">
+      <hr>
+      <h3><b>My Books</b></h3><br>
+      <hr>
+    </div>
+
+    <hr>
+    <div class="row col-md-12">
+      <h3><b>My Music</b></h3><br>
+      <hr>
+    </div>
+
+    <div class="row col-md-12">
+      <h3><b>My Groups</b></h3><br>
+      
+      <p><b><i>Created</i></b></p>
+      <% @groups = Group.where(:user_id => @user.id) %>
+      <% @groups.in_groups_of(4, false).each_with_index do |group, index| %>
+      <div class="row">
+        <% group.each do |group| %>
+        <div class="col-md-3">
+          <%= link_to image_tag(group.photo_url, :size => 100, :class=>"img-responsive img-rounded"), group_path(group.id) %>
+        </div>
+        <% end %>
+      </div>
+      <% end %>
+      <br>
+      
+      <hr>
+      <p><b><i>Joined</i></b></p>
+      <% @groups = @user.groups %>
+      <% @groups.in_groups_of(4, false).each_with_index do |group, index| %>
+      <div class="row">
+        <% group.each do |group| %>
+        <div class="col-md-3">
+          <%= link_to image_tag(group.photo_url, :size => 100, :class=>"img-responsive img-rounded"), group_path(group.id) %>
+        </div>
+        <% end %>
+      </div>
+      <% end %>
+      <br>
+
+    </div>
+
+  
+
+
+

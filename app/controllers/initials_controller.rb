@@ -1,0 +1,2 @@
+class InitialsController < ApplicationController
+end

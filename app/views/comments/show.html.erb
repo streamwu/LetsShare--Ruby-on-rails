@@ -1,0 +1,11 @@
+<div class="page-header">
+  <h1>
+  	<% if @comment.commentable_type == "Movie" %>
+  	Comment on <% @comment.commentable.title %>
+  	<% elsif @comment.commentable_type == "Group" %>
+  	Topic on <% @comment.commentable.title %>
+  	<% end %>
+  </h1>
+  <h2><%= @comment.title %></h2>
+  <h3><%= @comment.content %> ---- <%= @comment.user.name %></h3>
+</div>

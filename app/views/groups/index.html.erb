@@ -1,0 +1,53 @@
+<div class="page-header">
+  <%= link_to "Create a new group", new_group_path,
+              :class => "pull-right btn btn-info btn-sm" %>
+  <h1>Groups</h1>
+</div>
+
+
+<div class="row col-md-12">
+ 
+  <p><b><i>Recent Topics of My Groups</i></b></p><br>
+
+  
+  <div>
+
+  <% Group.where(:user_id => @user.id).each do |group| %>
+    <% group.comments.each do |comment|%>
+    <%= link_to comment.title, comment_path(comment.id)%>   by <%= comment.user.name %> 
+    <br><h6>in group: <%= group.title %>   (created)</h6><hr>
+    <% end %>
+  <% end %>
+
+  <% @user.groups.each do |group| %>  
+    <% group.comments.each do |comment|%>
+    <%= link_to comment.title, comment_path(comment.id) %>    by <%= comment.user.name %>
+    <br><h6>in group: <%= group.title %>   (joined)</h6><hr>
+    <% end %>
+  <% end %>
+
+  </div>
+
+
+  
+</div>
+
+<div class="row col-md-12">
+ 
+  <br><p><b><i>Hot Groups </i></b></p><br>
+
+  <% @groups.in_groups_of(4, false).each_with_index do |group, index| %>
+  <div class="row">
+    <% group.each do |group| %>
+      <div class="col-md-3">
+        <%= link_to image_tag(group.photo_url, :size => 100, :class=>"img-responsive img-rounded"), group_path(group.id) %>
+      </div>
+    <% end %>
+    <br>
+  </div>
+  <% end %>
+
+
+</div>
+
+
